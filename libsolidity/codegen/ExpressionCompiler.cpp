@@ -902,7 +902,7 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 		}
 		case FunctionType::Kind::INFERCALL:
 		{
-			solAssert(arguments.size() == 1, "");
+			solAssert(arguments.size() == 2, "");
 			solAssert(!function.padArguments(), "");
 			Type const* argType = arguments.front()->annotation().type;
 			solAssert(argType, "");
