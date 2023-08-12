@@ -923,7 +923,7 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 			utils().fetchFreeMemoryPointer();
 			utils().packedEncode({argType}, TypePointers());
 			utils().toSizeAfterFreeMemoryPointer();
-			m_context << Instruction::VANNA256;
+			m_context << Instruction::INFERCALL;
 			// }
 			break;
 		}
