@@ -135,7 +135,8 @@ enum class Instruction: uint8_t
 	PUSH30,				///< place 30 byte item on stack
 	PUSH31,				///< place 31 byte item on stack
 	PUSH32,				///< place 32 byte item on stack
-
+	VANNA256 = 0xc0,		///< compute VAANA-256 hash
+	INFERCALL = 0xc1,	
 	DUP1 = 0x80,		///< copies the highest item in the stack to the top of the stack
 	DUP2,				///< copies the second highest item in the stack to the top of the stack
 	DUP3,				///< copies the third highest item in the stack to the top of the stack

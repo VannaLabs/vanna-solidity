@@ -3010,6 +3010,8 @@ string FunctionType::richIdentifier() const
 	case Kind::Send: id += "send"; break;
 	case Kind::Transfer: id += "transfer"; break;
 	case Kind::KECCAK256: id += "keccak256"; break;
+	case Kind::VANNA256: id += "vanna256"; break;
+	case Kind::INFERCALL: id += "inferCall"; break;
 	case Kind::Selfdestruct: id += "selfdestruct"; break;
 	case Kind::Revert: id += "revert"; break;
 	case Kind::ECRecover: id += "ecrecover"; break;
@@ -3605,6 +3607,8 @@ bool FunctionType::isPure() const
 	//       the callgraph analyzer is in place
 	return
 		m_kind == Kind::KECCAK256 ||
+		m_kind == Kind::VANNA256 ||
+		m_kind == Kind::INFERCALL ||
 		m_kind == Kind::ECRecover ||
 		m_kind == Kind::SHA256 ||
 		m_kind == Kind::RIPEMD160 ||
@@ -3738,6 +3742,8 @@ bool FunctionType::padArguments() const
 	case Kind::SHA256:
 	case Kind::RIPEMD160:
 	case Kind::KECCAK256:
+	case Kind::VANNA256:
+	case Kind::INFERCALL:
 	case Kind::ABIEncodePacked:
 		return false;
 	default:

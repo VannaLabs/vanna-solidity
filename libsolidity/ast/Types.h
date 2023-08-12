@@ -1226,6 +1226,8 @@ public:
 		Send, ///< CALL, but without data and gas
 		Transfer, ///< CALL, but without data and throws on error
 		KECCAK256, ///< KECCAK256
+		VANNA256, ///< VANNA256
+		INFERCALL, ///< INFERCALL
 		Selfdestruct, ///< SELFDESTRUCT
 		Revert, ///< REVERT
 		ECRecover, ///< CALL to special contract for ecrecover

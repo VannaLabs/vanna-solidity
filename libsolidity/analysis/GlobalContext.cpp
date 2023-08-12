@@ -47,6 +47,8 @@ int magicVariableToID(std::string const& _name)
 	else if (_name == "ecrecover") return -6;
 	else if (_name == "gasleft") return -7;
 	else if (_name == "keccak256") return -8;
+	else if (_name == "vanna256") return -9;
+	else if (_name == "inferCall") return -10;
 	else if (_name == "msg") return -15;
 	else if (_name == "mulmod") return -16;
 	else if (_name == "now") return -17;
@@ -80,6 +82,8 @@ inline vector<shared_ptr<MagicVariableDeclaration const>> constructMagicVariable
 		magicVarDecl("ecrecover", TypeProvider::function(strings{"bytes32", "uint8", "bytes32", "bytes32"}, strings{"address"}, FunctionType::Kind::ECRecover, StateMutability::Pure)),
 		magicVarDecl("gasleft", TypeProvider::function(strings(), strings{"uint256"}, FunctionType::Kind::GasLeft, StateMutability::View)),
 		magicVarDecl("keccak256", TypeProvider::function(strings{"bytes memory"}, strings{"bytes32"}, FunctionType::Kind::KECCAK256, StateMutability::Pure)),
+		magicVarDecl("vanna256", TypeProvider::function(strings{"bytes memory"}, strings{"bytes32"}, FunctionType::Kind::VANNA256, StateMutability::Pure)),
+		magicVarDecl("inferCall", TypeProvider::function(strings{"bytes memory"}, strings{"bytes32"}, FunctionType::Kind::INFERCALL, StateMutability::Pure)),
 		magicVarDecl("msg", TypeProvider::magic(MagicType::Kind::Message)),
 		magicVarDecl("mulmod", TypeProvider::function(strings{"uint256", "uint256", "uint256"}, strings{"uint256"}, FunctionType::Kind::MulMod, StateMutability::Pure)),
 		magicVarDecl("now", TypeProvider::uint256()),

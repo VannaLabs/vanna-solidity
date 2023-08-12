@@ -873,6 +873,60 @@ bool ExpressionCompiler::visit(FunctionCall const& _functionCall)
 			}
 			break;
 		}
+		case FunctionType::Kind::VANNA256:
+		{
+			solAssert(arguments.size() == 1, "");
+			solAssert(!function.padArguments(), "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.front()->accept(*this);
+			if (auto const* stringLiteral = dynamic_cast<StringLiteralType const*>(argType))
+				// Optimization: Compute keccak256 on string literals at compile-time.
+				m_context << u256(keccak256(stringLiteral->value()));
+			else if (*argType == *TypeProvider::bytesMemory() || *argType == *TypeProvider::stringMemory())
+			{
+				// Optimization: If type is bytes or string, then do not encode,
+				// but directly compute keccak256 on memory.
+				ArrayUtils(m_context).retrieveLength(*TypeProvider::bytesMemory());
+				m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+				m_context << Instruction::VANNA256;
+			}
+			else
+			{
+				utils().fetchFreeMemoryPointer();
+				utils().packedEncode({argType}, TypePointers());
+				utils().toSizeAfterFreeMemoryPointer();
+				m_context << Instruction::VANNA256;
+			}
+			break;
+		}
+		case FunctionType::Kind::INFERCALL:
+		{
+			solAssert(arguments.size() == 1, "");
+			solAssert(!function.padArguments(), "");
+			Type const* argType = arguments.front()->annotation().type;
+			solAssert(argType, "");
+			arguments.front()->accept(*this);
+			if (auto const* stringLiteral = dynamic_cast<StringLiteralType const*>(argType))
+				// Optimization: Compute keccak256 on string literals at compile-time.
+				m_context << u256(keccak256(stringLiteral->value()));
+			else if (*argType == *TypeProvider::bytesMemory() || *argType == *TypeProvider::stringMemory())
+			{
+				// Optimization: If type is bytes or string, then do not encode,
+				// but directly compute keccak256 on memory.
+				ArrayUtils(m_context).retrieveLength(*TypeProvider::bytesMemory());
+				m_context << Instruction::SWAP1 << u256(0x20) << Instruction::ADD;
+				m_context << Instruction::VANNA256;
+			}
+			else
+			{
+				utils().fetchFreeMemoryPointer();
+				utils().packedEncode({argType}, TypePointers());
+				utils().toSizeAfterFreeMemoryPointer();
+				m_context << Instruction::VANNA256;
+			}
+			break;
+		}
 		case FunctionType::Kind::Event:
 		{
 			_functionCall.expression().accept(*this);

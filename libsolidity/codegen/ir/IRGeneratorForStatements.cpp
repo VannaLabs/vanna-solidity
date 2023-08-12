@@ -1351,6 +1351,43 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		}
 		break;
 	}
+	case FunctionType::Kind::VANNA256:
+	{
+		solAssert(arguments.size() == 1);
+
+		ArrayType const* arrayType = TypeProvider::bytesMemory();
+
+		
+		auto array = convert(*arguments[0], *arrayType);
+
+		string dataAreaFunction = m_utils.arrayDataAreaFunction(*arrayType);
+		string arrayLengthFunction = m_utils.arrayLengthFunction(*arrayType);
+		string args;
+		for (size_t i = 0; i < arguments.size(); ++i)
+			args += (args.empty() ? "" : ", ") + expressionAsType(*arguments[i], *(parameterTypes[i]));
+		define(_functionCall) << "vanna256(" << "(" << args << ")\n";
+		
+		break;
+	}
+	case FunctionType::Kind::INFERCALL:
+	{
+
+		solAssert(arguments.size() == 1);
+
+		ArrayType const* arrayType = TypeProvider::bytesMemory();
+
+		
+		auto array = convert(*arguments[0], *arrayType);
+
+		string dataAreaFunction = m_utils.arrayDataAreaFunction(*arrayType);
+		string arrayLengthFunction = m_utils.arrayLengthFunction(*arrayType);
+		string args;
+		for (size_t i = 0; i < arguments.size(); ++i)
+			args += (args.empty() ? "" : ", ") + expressionAsType(*arguments[i], *(parameterTypes[i]));
+		define(_functionCall) << "vanna256(" << "(" << args << ")\n";
+		
+		break;
+	}
 	case FunctionType::Kind::ArrayPop:
 	{
 		solAssert(functionType->hasBoundFirstArgument());
