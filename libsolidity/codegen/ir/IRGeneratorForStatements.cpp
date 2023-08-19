@@ -1384,7 +1384,7 @@ void IRGeneratorForStatements::endVisit(FunctionCall const& _functionCall)
 		string args;
 		for (size_t i = 0; i < arguments.size(); ++i)
 			args += (args.empty() ? "" : ", ") + expressionAsType(*arguments[i], *(parameterTypes[i]));
-		define(_functionCall) << "vanna256(" << "(" << args << ")\n";
+		define(_functionCall) << "inferCall(" << "(" << args << ")\n";
 		
 		break;
 	}
